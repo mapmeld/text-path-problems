@@ -1,0 +1,73 @@
+<style>
+svg {
+  font-family: sans-serif;
+  font-size: 70%;
+}
+</style>
+
+<div>
+  Adapted from MDN:
+  <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath">developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath</a>
+  <br/>
+  I know that SVG and <code>textPath</code> especially are not common on the web, but they're essential in OpenStreetMap's editor.
+</div>
+
+<h4>Basic: Success</h4>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
+  <path id="MyPath" fill="none" stroke="red"
+          d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
+  <text>
+    <textPath href="#MyPath">
+      The quick brown fox jumps over the lazy dog.
+    </textPath>
+  </text>
+</svg>
+
+<h4>Latin Combining Characters: Success</h4>
+<div>Each letter is two chars long: e + accent: ééé </div>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
+  <path id="MyPath" fill="none" stroke="red"
+          d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
+  <text>
+    <textPath href="#MyPath">
+      ééé ééé ééé ééé
+    </textPath>
+  </text>
+</svg>
+
+<h4>Hindi Combining Characters: Fail</h4>
+<div>Namaste - नमस्ते - is 6 chars long (individually: न म स ् त े). You can tell that the vowel marks and a combining mark are rendered incorrectly because the dotted circles appear in text.
+<br/>
+Strangely, the text appears to have the correct width.
+<br/>
+This bug is fairly new, being reported to us <a href="https://github.com/openstreetmap/iD/issues/5342">in September 2018</a></div>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
+  <path id="MyPath" fill="none" stroke="red"
+          d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
+  <text>
+    <textPath href="#MyPath">
+      नमस्ते  &nbsp;&nbsp; नमस्ते
+    </textPath>
+  </text>
+</svg>
+
+<h4>Arabic Text-Shaping + RTL Characters: Double Fail</h4>
+<div>أستراليا (Australia) is 8 chars long (individually: أ س ت ر ا ل ي ا).
+  <br/>We expect the baseline to have two parts, and the alif with hamza on top (أ) appear at the right of the word.
+  Instead, the letters are displayed individually, in left-to-right order.<br/>
+This bug is <strong>considerably older</strong> (<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=374526">2014 Chromium issue</a>)
+and we previously worked around it with client-side text shaping (tl;dr we replace standard Arabic block with Arabic presentation forms characters -
+this isn't possible in Hindi and other South Asian scripts).</div>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
+  <path id="MyPath" fill="none" stroke="red"
+          d="M10,90 Q90,90 90,45 Q90,10 50,10 Q10,10 10,40 Q10,70 45,70 Q70,70 75,50" />
+  <text>
+    <textPath href="#MyPath">
+      أستراليا
+    </textPath>
+  </text>
+</svg>
