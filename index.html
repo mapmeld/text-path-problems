@@ -1,10 +1,20 @@
-<style>
-svg {
-  font-family: sans-serif;
-  font-size: 70%;
-}
-</style>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>textPath Chrome Problems</title>
+    <style>
+    body {
+      font-family: sans-serif;
+    }
 
+    svg {
+      font-size: 70%;
+    }
+    </style>
+  </head>
+  <body>
 <div>
   Adapted from MDN:
   <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath">developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath</a>
@@ -24,8 +34,10 @@ svg {
   </text>
 </svg>
 
-<h4>Latin Combining Characters: Success</h4>
-<div>Each letter is two chars long: e + accent: ééé </div>
+<h4>Latin Combining Characters: Subtle Fail</h4>
+<div>Each letter is two chars long: e + accent: ééé
+<br/>
+On Android + Chrome, I see the accent slightly too far left of the e. I think that they are appearing as separate characters.</div>
 
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
   <path id="MyPath" fill="none" stroke="red"
@@ -71,3 +83,5 @@ this isn't possible in Hindi and other South Asian scripts).</div>
     </textPath>
   </text>
 </svg>
+  </body>
+</html>
