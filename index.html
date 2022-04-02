@@ -19,7 +19,7 @@
   Adapted from MDN:
   <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath">developer.mozilla.org/en-US/docs/Web/SVG/Element/textPath</a>
   <br/>
-  I know that SVG and <code>textPath</code> especially are not common on the web, but they're essential in OpenStreetMap's editor.
+  I know that SVG and <code>textPath</code> especially are not common on the web, but they're essential in OpenStreetMap's iD editor.
 </div>
 
 <h4>Basic: Success</h4>
@@ -37,7 +37,7 @@
 <h4>Latin Combining Characters: Subtle Fail</h4>
 <div>Each letter is two chars long: e + accent: ééé
 <br/>
-On Android + Chrome, I see the accent slightly too far left of the e. I think that they are appearing as separate characters.</div>
+On Safari, I see the accent slightly too far left of the e. I think that they are appearing as separate characters.</div>
 
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
   <path id="MyPath" fill="none" stroke="red"
@@ -50,11 +50,11 @@ On Android + Chrome, I see the accent slightly too far left of the e. I think th
 </svg>
 
 <h4>Hindi Combining Characters: Fail</h4>
-<div>Namaste - नमस्ते - is 6 chars long (individually: न म स ् त े). You can tell that the vowel marks and a combining mark are rendered incorrectly because the dotted circles appear in text.
+<div>Namaste - नमस्ते - is 6 chars long (individually: न म स ् त े). You can tell that the vowel marks and a combining mark are rendered incorrectly if the dotted circles appear in text.
 <br/>
 Strangely, the text appears to have the correct width.
 <br/>
-This bug is fairly new, being reported to us <a href="https://github.com/openstreetmap/iD/issues/5342">in September 2018</a></div>
+This bug was reported to us <a href="https://github.com/openstreetmap/iD/issues/5342">in September 2018</a></div>
 
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
   <path id="MyPath" fill="none" stroke="red"
@@ -69,10 +69,11 @@ This bug is fairly new, being reported to us <a href="https://github.com/openstr
 <h4>Arabic Text-Shaping + RTL Characters: Double Fail</h4>
 <div>أستراليا (Australia) is 8 chars long (individually: أ س ت ر ا ل ي ا).
   <br/>We expect the baseline to have two parts, and the alif with hamza on top (أ) appear at the right of the word.
-  Instead, the letters are displayed individually, in left-to-right order.<br/>
-This bug is <strong>considerably older</strong> (<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=374526">2014 Chromium issue</a>)
-and we previously worked around it with client-side text shaping (tl;dr we replace standard Arabic block with Arabic presentation forms characters -
-this isn't possible in Hindi and other South Asian scripts).</div>
+  In Safari, the letters are displayed separated, and in left-to-right order.<br/>
+This bug was a (<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=374526">Chromium issue from 2014</a>)
+  which Chrome fixed in their new system in fall 2021.
+We currently work around it with client-side text shaping (Arabic presentation forms Unicode block) but
+this isn't possible for Hindi and other South Asian scripts with combining characters.</div>
 
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="200">
   <path id="MyPath" fill="none" stroke="red"
